@@ -1,0 +1,126 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Kanban.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="800"
+		Height="650" Width="800"
+		MinHeight="620" MinWidth="750"
+        x:Class="Kanban.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Kanban">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<Window.Styles>
+		<Style Selector="TextBlock.TB1">
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="VerticalAlignment" Value="Stretch"/>
+			<Setter Property="TextAlignment" Value="Center"/>
+			<Setter Property="FontSize" Value="20"/>
+			<Setter Property="Background" Value="AliceBlue"/>
+			<Setter Property="Margin" Value="1"/>
+		</Style>
+		<Style Selector="Button.BTN1">
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="VerticalAlignment" Value="Stretch"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+			<Setter Property="FontSize" Value="20"/>
+			<Setter Property="Margin" Value="0.1"/>
+		</Style>
+	</Window.Styles>
+		
+	<Grid MinHeight="585" MinWidth="750" ColumnDefinitions="1*,1*,1*" ShowGridLines="False" Background="DarkGray"
+			RowDefinitions="30,50,1*,50">
+		<Menu  VerticalAlignment="Top" Background="WhiteSmoke" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Margin="0,0,0,3">
+			<MenuItem Header="_File">
+				<MenuItem Header="_New" Command="{Binding NewKanban}"/>
+				<MenuItem Header="_Save" Click="Save"/>
+				<MenuItem Header="_Load " Click="Load"/>
+				<Separator/>
+				<MenuItem Header="_Exit" Command="{Binding Exit}"/>
+			</MenuItem>
+			<MenuItem Header="_About" Click="AboutClick"/>
+		</Menu>
+		<TextBlock Classes="TB1" Grid.Column="0" Grid.Row="1" >Запланированно</TextBlock>
+		<TextBlock Classes="TB1" Grid.Column="1" Grid.Row="1" >В работе</TextBlock>
+		<TextBlock Classes="TB1" Grid.Column="2" Grid.Row="1" >Завершено</TextBlock>
+		
+		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="2" Background="AliceBlue"  Margin="1">
+			<ItemsControl Items="{Binding Tasks[0]}" >
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Expander Header="{Binding Header}">
+							<StackPanel>
+								<TextBlock Text="Header:"/>
+								<TextBox HorizontalAlignment="Stretch" Margin="0,0,5,0" MinWidth="230" Text="{Binding Header}" />
+								<TextBlock Text="Task:"/>
+								<TextBox HorizontalAlignment="Stretch" MinWidth="230" Margin="0,0,5,0" Height="200"
+										 Text="{Binding Text}" AcceptsReturn="True" TextWrapping="Wrap"/>
+								<Image Source="{Binding PathToImage}" Margin="5"/>
+								<Button Height="30" HorizontalAlignment="Stretch" FontSize="15" Margin="0,10,0,0"
+										Click="AddImage">AddImage</Button>
+								<Button Height="30" HorizontalAlignment="Stretch" FontSize="15"
+										Margin="0,10,0,0" Click="DeleteTask" Tag="0">Delete</Button>
+							</StackPanel>
+						</Expander>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+
+		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="2" Background="AliceBlue"  Margin="1">
+			<ItemsControl Items="{Binding Tasks[1]}" >
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Expander Header="{Binding Header}">
+							<StackPanel>
+								<TextBlock Text="Header:"/>
+								<TextBox HorizontalAlignment="Stretch" Margin="0,0,5,0" MinWidth="230" Text="{Binding Header}" />
+								<TextBlock Text="Task:"/>
+								<TextBox HorizontalAlignment="Stretch" MinWidth="230" Margin="0,0,5,0" Height="200"
+										 Text="{Binding Text}" AcceptsReturn="True" TextWrapping="Wrap"/>
+								<Image Source="{Binding PathToImage}" Margin="5"/>
+								<Button Height="30" HorizontalAlignment="Stretch" FontSize="15" Margin="0,10,0,0"
+										Click="AddImage">AddImage</Button>
+								<Button Height="30" HorizontalAlignment="Stretch" FontSize="15"
+										Margin="0,10,0,0" Click="DeleteTask" Tag="1">Delete</Button>
+							</StackPanel>
+						</Expander>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+
+		<ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="2" Grid.Row="2" Background="AliceBlue" Margin="1">
+			<ItemsControl Items="{Binding Tasks[2]}" >
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Expander Header="{Binding Header}">
+							<StackPanel>
+								<TextBlock Text="Header:"/>
+								<TextBox HorizontalAlignment="Stretch" Margin="0,0,5,0" MinWidth="230" Text="{Binding Header}" />
+								<TextBlock Text="Task:"/>
+								<TextBox HorizontalAlignment="Stretch" MinWidth="230" Margin="0,0,5,0" Height="200"
+										 Text="{Binding Text}" AcceptsReturn="True" TextWrapping="Wrap"/>
+								<Image Source="{Binding PathToImage}" Margin="5"/>
+								<Button Height="30" HorizontalAlignment="Stretch" FontSize="15" Margin="0,10,0,0"
+										Click="AddImage">AddImage</Button>
+								<Button Height="30" HorizontalAlignment="Stretch" FontSize="15"
+										Margin="0,10,0,0" Click="DeleteTask" Tag="2">Delete</Button>
+							</StackPanel>
+						</Expander>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+		
+		<Button Grid.Column="0" Grid.Row="3" Classes="BTN1" Command="{Binding AddTask}" CommandParameter="0">Add</Button>
+		<Button Grid.Column="1" Grid.Row="3" Classes="BTN1" Command="{Binding AddTask}" CommandParameter="1">Add</Button>
+		<Button Grid.Column="2" Grid.Row="3" Classes="BTN1" Command="{Binding AddTask}" CommandParameter="2">Add</Button>
+	</Grid>
+
+</Window>
