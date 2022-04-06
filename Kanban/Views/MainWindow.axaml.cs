@@ -48,18 +48,19 @@ namespace Kanban.Views
 
         public async void Save(object sender, RoutedEventArgs e)
         {
-            var taskPath = new OpenFileDialog()
+            var taskPath = new SaveFileDialog()
             {
                 Title = "Save File",
-                Filters = null
-            }.ShowAsync((Window)this.VisualRoot);
-            string[]? path = await taskPath;
+                Filters = new List<FileDialogFilter>()
+            };
+            taskPath.Filters.Add(new FileDialogFilter() { Name = "Текстовый файл (.txt)", Extensions = { "txt" } });
+            string? path = await taskPath.ShowAsync((Window)this.VisualRoot);
 
             var context = this.DataContext as MainWindowViewModel;
             try
             {
                 if (path != null)
-                    using (StreamWriter file = new StreamWriter(string.Join(@"\", path)))
+                    using (StreamWriter file = new StreamWriter(path))
                     {
                         for (int i = 0; i < context.Tasks.Length; i++)
                         {
